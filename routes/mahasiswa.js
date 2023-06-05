@@ -2,8 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Mahasiswa = require('../models/Mahasiswa')
 
+// Import verifyToken
+const verifyToken = require('../config/verifyToken')
+
 // create api for mahasiswa
-router.post('/', async(req, res) => {
+router.post('/', verifyToken, async(req, res) => {
     // tampung dulu input mahasiswa
     const mahasiswaPost = new Mahasiswa({
         npm: req.body.npm,
@@ -23,7 +26,7 @@ router.post('/', async(req, res) => {
 })
 
 // Read
-router.get('/', async(req, res) => {
+router.get('/', verifyToken, async(req, res) => {
     try {
         const mahasiswa = await Mahasiswa.find()
         res.json(mahasiswa)
